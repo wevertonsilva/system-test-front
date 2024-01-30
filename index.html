@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="meuApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>System Test</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div ng-controller="MainController">
+        <form class="div-form">
+            <div class="div-input">
+                <input type="text" id="fname" ng-model="user.name" name="firstname" placeholder="Digite o nome">
+            </div>
+            <div class="div-input">
+                <input type="text" id="fpassword" ng-model="user.password" name="senha" placeholder="Digite a senha">
+            </div>
+            <div class="div-input">
+                <select id="hierarchy" name="hierarchy" ng-model="user.hierarchy">
+                    <option value="">Escolha a hierarquia</option>
+                    <option value="gerente">Gerente</option>
+                    <option value="funcionario">Funcionario</option>
+                    <option value="estagiario">Estagiário</option>
+                </select>
+            </div>
+            <div>
+                <input class="button-css" type="submit" ng-click="save(user)" value="Salvar" />
+            </div>
+        </form>
+
+        <pre>Nome: {{ master.name }}</pre>
+        <pre>Senha: {{ master.password }}</pre>
+        <pre>Hierarquia: {{ master.hierarchy }}</pre>
+    </div>
+</body>
+
+</html>
