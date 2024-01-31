@@ -2,12 +2,65 @@
     display: flex;
     width: 80%;
     margin: 0 auto;
-    background-color: yellow;
+    margin-bottom: 5%;
+}
+
+li {
+    margin-bottom: 1%;
+}
+
+.ul-pai {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+    list-style-type: square;
+}
+
+.ul-filho {
+    margin-left: 5%;
 }
 
 .div-input {
-    background-color: blue;
-    margin-right: 10px;
+    margin-right: 3%;
+}
+
+.div-nome {
+    font-size: medium;
+    font-family: 'Lucida Sans', sans-serif;
+}
+
+.div-item {
+    display: flex;
+}
+
+.div-percentual {
+    background-color: aqua;
+    border-radius: 5px;
+    margin-right: 1%;
+    margin-left: 5%;
+    text-align: center;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.div-categoria {
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+}
+
+.categoria-ruim {
+    background-color: #ff0000;
+}
+
+.categoria-boa {
+    background-color: #4de44d;
+}
+
+.categoria-forte {
+    background-color: brown;
 }
 
 .button-css {

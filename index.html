@@ -19,11 +19,9 @@
                 <input type="text" id="fpassword" ng-model="user.password" name="senha" placeholder="Digite a senha">
             </div>
             <div class="div-input">
-                <select id="hierarchy" name="hierarchy" ng-model="user.hierarchy">
+                <select id="hierarchy" name="hierarchy" ng-model="user.hierarchy" ng-change="logSelectedPerson()"
+                    ng-options="pessoa.id as pessoa.nome for pessoa in pessoas">
                     <option value="">Escolha a hierarquia</option>
-                    <option value="gerente">Gerente</option>
-                    <option value="funcionario">Funcionario</option>
-                    <option value="estagiario">Estagiário</option>
                 </select>
             </div>
             <div>
@@ -31,9 +29,34 @@
             </div>
         </form>
 
-        <pre>Nome: {{ master.name }}</pre>
-        <pre>Senha: {{ master.password }}</pre>
-        <pre>Hierarquia: {{ master.hierarchy }}</pre>
+        <ul class="ul-pai">
+            <li ng-repeat="pessoa in pessoas">
+                <span class="div-nome">
+                    {{ pessoa.nome }}
+                </span>
+                <span class="div-percentual">
+                    {{ pessoa.forcaSenhaPercentual }}
+                </span>
+                <span ng-class="getClass(pessoa.categoriaSenha)">
+                    {{ pessoa.categoriaSenha }}
+                </span>
+                <ul>
+                    <li ng-repeat="filho in pessoa.filhos">
+                        <div class="div-infos">
+                            <span class="div-nome">
+                                {{ filho.nome }}
+                            </span>
+                            <span class="div-percentual">
+                                {{ filho.forcaSenhaPercentual }}
+                            </span>
+                            <span ng-class="getClass(filho.categoriaSenha)">
+                                {{ filho.categoriaSenha }}
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </body>
 
