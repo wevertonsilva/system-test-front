@@ -1,0 +1,23 @@
+<li class="li-filho" ng-repeat="filho in pessoas">
+    <div class="div-infos">
+        <div class="div-nome" ng-click="toggleExpand(filho)">
+            <span ng-if="filho.filhos.length > 0">
+                <img src="../img/arrow-down.svg" alt="Arrow Icon" class="icon-style" ng-show="filho.expanded">
+                <img src="../img/arrow-rigth.svg" alt="Arrow Icon" class="icon-style" ng-show="!filho.expanded">
+            </span>
+            {{ filho.nome }}
+        </div>
+
+        <div class="div-infos-senha">
+            <span class="div-percentual">
+                {{ filho.forcaSenhaPercentual }}%
+            </span>
+            <span ng-class="getClass(filho.categoriaSenha)">
+                {{ filho.categoriaSenhaFormatada }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Renderizar os netos (filhos dos filhos) de forma recursiva -->
+    <ul ng-show="filho.expanded" ng-include="'src/filhos-template.html'" ng-init="pessoas = filho.filhos"></ul>
+</li>

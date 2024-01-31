@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <title>System Test</title>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" type="image/x-icon" href="img/close.svg">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="js/app.js"></script>
 </head>
 
 <body>
-    <div ng-controller="MainController">
+    <div ng-controller="MainController" class="container">
         <form class="div-form">
             <div class="div-input">
                 <input type="text" id="fname" ng-model="user.name" name="firstname" placeholder="Digite o nome">
@@ -30,29 +31,54 @@
         </form>
 
         <ul class="ul-pai">
-            <li ng-repeat="pessoa in pessoas">
-                <span class="div-nome">
-                    {{ pessoa.nome }}
-                </span>
-                <span class="div-percentual">
-                    {{ pessoa.forcaSenhaPercentual }}
-                </span>
-                <span ng-class="getClass(pessoa.categoriaSenha)">
-                    {{ pessoa.categoriaSenha }}
-                </span>
-                <ul>
-                    <li ng-repeat="filho in pessoa.filhos">
+            <li class="li-pai" ng-repeat="pessoa in pessoas">
+                <div class="div-infos">
+                    <div class="div-nome" ng-click="toggleExpand(pessoa)">
+                        <span ng-if="pessoa.filhos.length > 0">
+                            <img src="../img/arrow-down.svg" alt="Arrow Icon" class="icon-style"
+                                ng-show="pessoa.expanded">
+                            <img src="../img/arrow-rigth.svg" alt="Arrow Icon" class="icon-style"
+                                ng-show="!pessoa.expanded">
+                        </span>
+                        {{ pessoa.nome }}
+                    </div>
+
+                    <div class="div-infos-senha">
+                        <span class="div-percentual">
+                            {{ pessoa.forcaSenhaPercentual }}%
+                        </span>
+                        <span ng-class="getClass(pessoa.categoriaSenha)">
+                            {{ pessoa.categoriaSenhaFormatada }}
+                        </span>
+                    </div>
+                </div>
+
+                <ul ng-show="pessoa.expanded">
+                    <li class="li-filho" ng-repeat="filho in pessoa.filhos">
                         <div class="div-infos">
-                            <span class="div-nome">
+                            <div class="div-nome" ng-click="toggleExpand(filho)">
+                                <span ng-if="filho.filhos.length > 0">
+                                    <img src="img/arrow-down.svg" alt="Arrow Icon" style="width: 12px; height: 12px;"
+                                        ng-show="filho.expanded">
+                                    <img src="img/arrow-rigth.svg" alt="Arrow Icon" style="width: 12px; height: 12px;"
+                                        ng-show="!filho.expanded">
+                                </span>
                                 {{ filho.nome }}
-                            </span>
-                            <span class="div-percentual">
-                                {{ filho.forcaSenhaPercentual }}
-                            </span>
-                            <span ng-class="getClass(filho.categoriaSenha)">
-                                {{ filho.categoriaSenha }}
-                            </span>
+                            </div>
+
+                            <div class="div-infos-senha">
+                                <span class="div-percentual">
+                                    {{ filho.forcaSenhaPercentual }}%
+                                </span>
+                                <span ng-class="getClass(filho.categoriaSenha)">
+                                    {{ filho.categoriaSenhaFormatada }}
+                                </span>
+                            </div>
                         </div>
+
+                        <!-- Renderizar os netos (filhos dos filhos) de forma recursiva -->
+                        <ul ng-show="filho.expanded" ng-include="'src/filhos-template.html'"
+                            ng-init="pessoas = filho.filhos"></ul>
                     </li>
                 </ul>
             </li>

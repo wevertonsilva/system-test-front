@@ -1,12 +1,30 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
 .div-form {
     display: flex;
     width: 80%;
     margin: 0 auto;
     margin-bottom: 5%;
+    margin-top: 3%;
+    justify-content: space-around;
 }
 
-li {
+.li-pai {
+    list-style-type: none;
     margin-bottom: 1%;
+}
+
+.li-filho {
+    list-style-type: none;
+    margin-top: 1%;
 }
 
 .ul-pai {
@@ -14,7 +32,7 @@ li {
     flex-direction: column;
     width: 80%;
     margin: 0 auto;
-    list-style-type: square;
+    margin-bottom: 5%;
 }
 
 .ul-filho {
@@ -22,26 +40,40 @@ li {
 }
 
 .div-input {
+    width: 30%;
     margin-right: 3%;
 }
 
+.icon-style {
+    width: 12px;
+    height: 12px;
+}
+
 .div-nome {
+    width: 25%;
     font-size: medium;
     font-family: 'Lucida Sans', sans-serif;
 }
 
-.div-item {
+.div-infos {
     display: flex;
+    justify-content: space-between;
+}
+
+.div-infos-senha {
+    display: flex;
+    width: 25%;
+    justify-content: flex-end;
 }
 
 .div-percentual {
     background-color: aqua;
+    display: flex;
     border-radius: 5px;
-    margin-right: 1%;
-    margin-left: 5%;
     text-align: center;
-    padding-left: 1%;
-    padding-right: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-right: 3%;
 }
 
 .div-categoria {
@@ -61,6 +93,10 @@ li {
 
 .categoria-forte {
     background-color: brown;
+}
+
+.categoria-mediana {
+    background-color: greenyellow;
 }
 
 .button-css {
