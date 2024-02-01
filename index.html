@@ -12,21 +12,23 @@
 
 <body>
     <div ng-controller="MainController" class="container">
-        <form class="div-form">
+        <form class="div-form" ng-submit="save(user)">
             <div class="div-input">
-                <input type="text" id="fname" ng-model="user.name" name="firstname" placeholder="Digite o nome">
+                <input type="text" id="fname" ng-model="user.name" name="firstname" placeholder="Digite o nome"
+                    required>
             </div>
             <div class="div-input">
-                <input type="text" id="fpassword" ng-model="user.password" name="senha" placeholder="Digite a senha">
+                <input type="text" id="fpassword" ng-model="user.password" name="password" placeholder="Digite a senha"
+                    required minlength="8">
             </div>
             <div class="div-input">
-                <select id="hierarchy" name="hierarchy" ng-model="user.hierarchy" ng-change="logSelectedPerson()"
-                    ng-options="pessoa.id as pessoa.nome for pessoa in pessoas">
-                    <option value="">Escolha a hierarquia</option>
+                <select id="hierarchy" name="hierarchy" ng-model="user.hierarchy"
+                    ng-options="pessoa.id as pessoa.nome for pessoa in pessoasToSelect">
+                    <option value="">Usuário pai (opcional)</option>
                 </select>
             </div>
             <div>
-                <input class="button-css" type="submit" ng-click="save(user)" value="Salvar" />
+                <input class="button-css" type="submit" value="Salvar" />
             </div>
         </form>
 

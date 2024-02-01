@@ -50,7 +50,6 @@
 }
 
 .div-nome {
-    width: 25%;
     font-size: medium;
     font-family: 'Lucida Sans', sans-serif;
 }
@@ -62,48 +61,65 @@
 
 .div-infos-senha {
     display: flex;
-    width: 25%;
+    width: 27%;
     justify-content: flex-end;
 }
 
 .div-percentual {
-    background-color: aqua;
     display: flex;
     border-radius: 5px;
     text-align: center;
     padding-left: 5%;
     padding-right: 5%;
     margin-right: 3%;
+    font-family: 'Lucida Sans', sans-serif;
+    font-size: small;
 }
 
 .div-categoria {
-    color: white;
+    display: flex;
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 5px;
+    text-align: center !important;
+    font-family: 'Lucida Sans', sans-serif;
+    font-size: small;
+    font-weight: bold;
 }
 
 .categoria-ruim {
-    background-color: #ff0000;
+    background-color: #ff5959;
+}
+
+.categoria-fraca {
+    background-color: #f79797;
 }
 
 .categoria-boa {
-    background-color: #4de44d;
+    background-color: #8cfa8e;
 }
 
 .categoria-forte {
-    background-color: brown;
+    background-color: #2af742;
 }
 
 .categoria-mediana {
-    background-color: greenyellow;
+    background-color: #ebfa8c;
+}
+
+input:invalid {
+    border: 2px dashed red;
+}
+
+input:valid {
+    border: 2px solid black;
 }
 
 .button-css {
     background-color: #04AA6D;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;

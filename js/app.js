@@ -8,52 +8,10 @@ ngModule.constant('config', {
 
 ngModule.controller('MainController', ['$scope', '$http', 'config', function ($scope, $http, config) {
     $scope.user = {};
-    $scope.pessoas = [
-        {
-            "id": 10,
-            "nome": "Robertinho",
-            "forcaSenhaPercentual": 100,
-            "categoriaSenha": "MEDIANA",
-            "categoriaSenhaFormatada": "Mediana",
-            "filhos": [
-                {
-                    "id": 11,
-                    "nome": "Robertinho 1",
-                    "forcaSenhaPercentual": 44,
-                    "categoriaSenha": "FORTE",
-                    "categoriaSenhaFormatada": "Forte",
-                    "filhos": [
-                        {
-                            "id": 12,
-                            "nome": "Robertinho 2",
-                            "forcaSenhaPercentual": 44,
-                            "categoriaSenha": "BOA",
-                            "categoriaSenhaFormatada": "Boa",
-                            "filhos": [
-                                {
-                                    "id": 13,
-                                    "nome": "Robertinho 3",
-                                    "forcaSenhaPercentual": 44,
-                                    "categoriaSenha": "FORTE",
-                                    "categoriaSenhaFormatada": "Forte",
-                                    "filhos": []
-                                }
-                            ]
-                        },
-                    ]
-                },
-                {
-                    "id": 14,
-                    "nome": "Robertinho",
-                    "forcaSenhaPercentual": 44,
-                    "categoriaSenha": "MEDIANA",
-                    "categoriaSenhaFormatada": "Mediana",
-                    "filhos": []
-                }
-            ]
-        }
-    ];
+    $scope.pessoas = [];
+    $scope.pessoasToSelect = [];
 
+    // Função para expandir e recolher categorias
     $scope.toggleExpand = function (pessoa) {
         pessoa.expanded = !pessoa.expanded;
         angular.forEach(pessoa.filhos, function (filho) {
@@ -61,6 +19,51 @@ ngModule.controller('MainController', ['$scope', '$http', 'config', function ($s
         });
     };
 
+
+    // Função para buscar usuários cadastrados
+    $scope.carregarPessoas = function () {
+        $http.get(config.apiUrl + '/usuarios/listas/nomes')
+            .then(function (response) {
+                $scope.pessoas = response.data;
+                $scope.carregarPessoasParaSelect($scope.pessoas);
+                expandAll($scope.pessoas);
+            })
+            .catch(function (error) {
+                console.error('Erro ao carregar pessoas:', error);
+            });
+    };
+
+    // Função para filtrar os objetos e aplicar no select
+    $scope.carregarPessoasParaSelect = function (pessoas) {
+        angular.forEach(pessoas, function (pessoa) {
+            var itemExistente = $scope.pessoasToSelect.some(function (item) {
+                return item.id === pessoa.id;
+            });
+
+            if (!itemExistente) {
+                $scope.pessoasToSelect.push({ id: pessoa.id, nome: pessoa.nome });
+            }
+
+            // Verifica se a pessoa possui filhos e chama a função recursivamente
+            if (pessoa.filhos && pessoa.filhos.length > 0) {
+                $scope.carregarPessoasParaSelect(pessoa.filhos);
+            }
+        });
+    };
+
+    // Função para expandir todos os itens recursivamente
+    function expandAll(items) {
+        items.forEach(function (item) {
+            item.expanded = true;
+            if (item.filhos && item.filhos.length > 0) {
+                expandAll(item.filhos);
+            }
+        });
+    }
+
+    $scope.carregarPessoas();
+
+    // Função para salvar um novo usuário
     $scope.save = function (user) {
         var novaPessoa = {
             nome: user.name,
@@ -70,64 +73,28 @@ ngModule.controller('MainController', ['$scope', '$http', 'config', function ($s
 
         $http.post(config.apiUrl + '/usuarios', novaPessoa)
             .then(function (response) {
-                console.log('Nova pessoa criada com sucesso:', response.data);
-                // $scope.carregarPessoas();
+                $scope.carregarPessoas();
             })
             .catch(function (error) {
                 console.error('Erro ao criar nova pessoa:', error);
             });
 
-        // var selectedPerson = $scope.pessoas.find(function (pessoa) {
-        //     return pessoa.id === user.hierarchy;
-        // });
-
-        // if (selectedPerson) {
-        //     // Adiciona como filho da pessoa selecionada
-        //     selectedPerson.filhos.push({
-        //         nome: user.name,
-        //         senha: user.password,
-        //         filhos: []
-        //     });
-
-        //     // Atualiza a pessoa no backend
-        //     // $http.put('/api/pessoas/' + selectedPerson.id, selectedPerson)
-        //     //     .then(function (response) {
-        //     //         console.log('Pessoa atualizada com sucesso:', response.data);
-        //     //     })
-        //     //     .catch(function (error) {
-        //     //         console.error('Erro ao atualizar pessoa:', error);
-        //     //     });
-        // } else {
-        //     // Cria uma nova pessoa no backend
-        //     var novaPessoa = {
-        //         nome: user.name,
-        //         senha: user.password,
-        //         usuarioPai: user.hierarchy ? { id: user.hierarchy } : null
-        //     };
-
-        //     $http.post(config.apiUrl + '/usuarios', novaPessoa)
-        //         .then(function (response) {
-        //             console.log('Nova pessoa criada com sucesso:', response.data);
-        //             // $scope.carregarPessoas();
-        //         })
-        //         .catch(function (error) {
-        //             console.error('Erro ao criar nova pessoa:', error);
-        //         });
-        // }
-
         $scope.user = {};
     };
 
+    // Função para definir a classe da senha
     $scope.getClass = function (categoriaSenha) {
         switch (categoriaSenha) {
-            case 'RUIM':
+            case 'MUITO_FRACA':
                 return 'div-categoria categoria-ruim';
+            case 'FRACA':
+                return 'div-categoria categoria-fraca';
+            case 'MEDIANA':
+                return 'div-categoria categoria-mediana';
             case 'BOA':
                 return 'div-categoria categoria-boa';
             case 'FORTE':
                 return 'div-categoria categoria-forte';
-            case 'MEDIANA':
-                return 'div-categoria categoria-mediana';
             default:
                 return '';
         }
